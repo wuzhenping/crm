@@ -31,15 +31,15 @@ public class AttachmentController {
     @Resource private AttachmentService attachmentService;
     @Resource private JwtUtil jwtUtil;
 
-    @Operation(description = "多个附件添加")
-    @PostMapping(value = "/uploads/{category}", consumes = "multipart/*", headers = "content-type=multipart/form-data")
-    public Result uploads(@PathVariable String category, @ApiParam(value = "上传的附件") List<MultipartFile> multipartFileList,
-                      @RequestHeader Map<String, String> headers) throws Exception {
-        String header = jwtUtil.getJwtProperties().getHeader();
-        Integer iputuserID= Integer.valueOf(jwtUtil.getId(headers.get(header)).get());
-        attachmentService.createAttachmentList(multipartFileList, category, iputuserID);
-        return ResultGenerator.genOkResult();
-    }
+//    @Operation(description = "多个附件添加")
+//    @PostMapping(value = "/uploads/{category}", consumes = "multipart/*", headers = "content-type=multipart/form-data")
+//    public Result uploads(@PathVariable String category, @ApiParam(value = "上传的附件") List<MultipartFile> multipartFileList,
+//                      @RequestHeader Map<String, String> headers) throws Exception {
+//        String header = jwtUtil.getJwtProperties().getHeader();
+//        Integer iputuserID= Integer.valueOf(jwtUtil.getId(headers.get(header)).get());
+//        attachmentService.createAttachmentList(multipartFileList, category, iputuserID);
+//        return ResultGenerator.genOkResult();
+//    }
 
     @Operation(description = "附件添加")
     @PostMapping(value = "/upload/{category}", consumes = "multipart/*", headers = "content-type=multipart/form-data")
@@ -47,8 +47,8 @@ public class AttachmentController {
                       @RequestHeader Map<String, String> headers) throws Exception {
         String header = jwtUtil.getJwtProperties().getHeader();
         Integer iputuserID= Integer.valueOf(jwtUtil.getId(headers.get(header)).get());
-        attachmentService.createAttachment(file, category, iputuserID);
-        return ResultGenerator.genOkResult();
+        Attachment attachment = attachmentService.createAttachment(file, category, iputuserID);
+        return ResultGenerator.genOkResult(attachment);
     }
 
     @ApiOperation(value = "获取附件信息", notes = "获取附件信息接口")

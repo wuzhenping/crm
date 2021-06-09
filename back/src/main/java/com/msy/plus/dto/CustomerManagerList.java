@@ -37,6 +37,11 @@ public class CustomerManagerList {
     private String remark;
 
     /**
+     * 附件ID
+     */
+    private String attachment;
+
+    /**
      * 客户年龄
      */
     private Integer age;

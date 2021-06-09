@@ -21,9 +21,14 @@ public class CodeGenerator {
         return instance;
     }
 
-    //客户管理
-    public String getCustomerManagerNo() {
-        return CUSTOMER_MANAGER_SING + DateUtils.getSubYear() + DateUtils.getMonth() +DateUtils.getDay() + GeneratorId.getInstance().nextCode(7);
+//    //客户管理
+//    public String getCustomerManagerNo() {
+//        return CUSTOMER_MANAGER_SING + DateUtils.getSubYear() + DateUtils.getMonth() +DateUtils.getDay() + GeneratorId.getInstance().nextCode(7);
+//    }
+
+    //附件
+    public String getAttachmentId() {
+        return DateUtils.getSubYear() + DateUtils.getMonth() +DateUtils.getDay() + GeneratorId.getInstance().nextCode(7);
     }
 
 }

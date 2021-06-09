@@ -99,6 +99,7 @@
                c.clienttype                                        as clienttype,
                c.productname                                       as productname,
                c.remark                                            as remark,
+               c.attachment                                        AS attachment,
                if(ch.newSeller is null, c.inputUser, ch.newSeller) as inputUser
         from customer_manager as c
                  LEFT JOIN ( SELECT * FROM customer_handover ch  ORDER BY transTime DESC LIMIT 1) ch ON ch.customerID = c.id

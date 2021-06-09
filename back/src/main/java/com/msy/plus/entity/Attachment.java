@@ -9,14 +9,7 @@ import java.util.Date;
 @Table(name = "attachment")
 public class Attachment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-
-    /**
-     * 文件位置
-     */
-    @Column(name = "location")
-    private String location;
 
     /**
      * image,images

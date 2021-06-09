@@ -5,8 +5,7 @@
         <!--
           WARNING - @mbg.generated
         -->
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="id" jdbcType="VARCHAR" property="id"/>
         <result column="category" jdbcType="VARCHAR" property="category"/>
         <result column="oriFileName" jdbcType="VARCHAR" property="oriFileName"/>
         <result column="url" jdbcType="VARCHAR" property="url"/>

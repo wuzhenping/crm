@@ -1,7 +1,7 @@
 package com.msy.plus.entity;
 
-import java.util.Date;
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "customer_manager")
 public class CustomerManager {
@@ -79,6 +79,12 @@ public class CustomerManager {
      */
     @Column(name = "productName")
     private String productname;
+
+    /**
+     * 附件保存attachment表的location字段
+     */
+    @Column(name = "attachment")
+    private String attachment;
 
     /**
      * @return id
@@ -320,5 +326,13 @@ public class CustomerManager {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
     }
 }

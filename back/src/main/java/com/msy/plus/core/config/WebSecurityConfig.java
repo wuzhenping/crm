@@ -39,6 +39,9 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     "/swagger-resources",
     "/swagger-resources/**",
     "/webjars/**",
+
+          // TODO: 2021/6/7 0007 测试时可留着，上线要屏蔽
+    "/attachment/**"
   };
 
   @Resource private MyAuthenticationEntryPoint myAuthenticationEntryPoint;

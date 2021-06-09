@@ -1,16 +1,15 @@
 package com.msy.plus.core.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import springfox.documentation.service.*;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.spi.service.contexts.SecurityContext;
+import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.Collections;
 import java.util.List;
@@ -74,7 +73,7 @@ public class Swagger3Config {
             .build();
   }
 
-  @Bean
+//  @Bean
   public Docket docket() {
 //添加head参数配置start
     return new Docket(DocumentationType.SWAGGER_2)

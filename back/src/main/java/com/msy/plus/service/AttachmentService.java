@@ -15,7 +15,7 @@ public interface AttachmentService extends Service<Attachment> {
 
     void createAttachmentList(List<MultipartFile> fileList, String category, Integer iputuserID) throws Exception;
 
-    void createAttachment(MultipartFile file, String category, Integer iputuserID) throws Exception;
+    Attachment createAttachment(MultipartFile file, String category, Integer iputuserID) throws Exception;
 
     List<Attachment> findFiles(String fileIds);
 

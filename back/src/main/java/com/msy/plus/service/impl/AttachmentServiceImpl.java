@@ -51,7 +51,8 @@ public class AttachmentServiceImpl extends AbstractService<Attachment> implement
     }
 
     @Override
-    public void createAttachment(MultipartFile file, String category, Integer iputuserID) throws Exception {
+    public Attachment createAttachment(MultipartFile file, String category, Integer iputuserID) throws Exception {
+        Attachment attachment = new Attachment();
         // 最大文件大小
         long maxSize = Long.parseLong(maxSizeStr);
 //        String savePath = Config.get("file.upload.path") + "/";
@@ -97,7 +98,7 @@ public class AttachmentServiceImpl extends AbstractService<Attachment> implement
                     // String realPath = request.getSession().getServletContext().getRealPath("/");
 
                     // 自定义的文件名称
-                    String trueFileName = CodeGenerator.getInstance().getCustomerManagerNo();
+                    String trueFileName = CodeGenerator.getInstance().getAttachmentId();
 
                     // 设置存放图片文件的路径
                     path = savePath + trueFileName + "." + type;
@@ -108,8 +109,7 @@ public class AttachmentServiceImpl extends AbstractService<Attachment> implement
 //                    file.transferTo(new File(path));
                     logger.debug("文件成功上传到指定目录下");
 
-                    Attachment attachment = new Attachment();
-                    attachment.setLocation(trueFileName);
+                    attachment.setId(trueFileName);
                     attachment.setCategory(category);
                     attachment.setOrifilename(fileName);
                     attachment.setInputuser(iputuserID);
@@ -131,6 +131,7 @@ public class AttachmentServiceImpl extends AbstractService<Attachment> implement
             logger.error("没有找到相对应的文件");
             throw new Exception("没有找到相对应的文件");
         }
+        return attachment;
 
     }
 
