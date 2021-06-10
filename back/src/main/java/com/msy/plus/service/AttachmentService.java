@@ -23,5 +23,7 @@ public interface AttachmentService extends Service<Attachment> {
 
     String findFileUrlByFileId(String fileId);
 
-    List<String> findFileUrlByFileIds(String fileId);
+    List<String> findFileUrlByFileIds(String fileIds);
+
+    void deleteAttachment(String fileId);
 }
