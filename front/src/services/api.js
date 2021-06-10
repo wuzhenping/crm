@@ -3,8 +3,12 @@ const API_PROXY_PREFIX = '/api'
 const BASE_URL = process.env.NODE_ENV === 'production' ?
   process.env.VUE_APP_API_BASE_URL :
   API_PROXY_PREFIX
-// const BASE_URL = process.env.VUE_APP_API_BASE_URL
-// const BASE_URL = process.env.VUE_APP_API_DEV_URL
+
+// 不用代理,要注释掉vue.config.js 中的proxy{}
+// const BASE_URL = process.env.NODE_ENV === 'production' ?
+//   '/spring-boot-api-seeding' :
+//   process.env.VUE_APP_API_BASE_URL
+
 module.exports = {
   BASE_URL,
   // LOGIN: `${BASE_URL}/login`,
