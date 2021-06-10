@@ -219,4 +219,9 @@ public class AttachmentServiceImpl extends AbstractService<Attachment> implement
         }
         return urlList;
     }
+
+    @Override
+    public void deleteAttachment(String fileId){
+        this.deleteById(fileId);
+    }
 }

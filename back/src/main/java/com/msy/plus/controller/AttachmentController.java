@@ -91,4 +91,12 @@ public class AttachmentController {
         return ResultGenerator.genOkResult(urlList);
     }
 
+    @Operation(description = "附件删除")
+    @ApiImplicitParam(name = "fileId", value = "文件ID", dataType = "string")
+    @DeleteMapping(value = "/delete/{fileId}")
+    public Result delete(@PathVariable String fileId) throws Exception {
+        attachmentService.deleteAttachment(fileId);
+        return ResultGenerator.genOkResult();
+    }
+
 }
