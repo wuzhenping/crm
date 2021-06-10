@@ -5,19 +5,12 @@
         <a-space class="operator">
           <a-form layout="inline" :form="queryForm">
             <a-form-item label="关键字">
-              <a-input
-                  v-decorator="['keyword', { rules: [{ required: false,min:1,max:120,message:'输入长度应在1到120之间'}] }]"
-                  placeholder="请输入姓名/电话"
-              />
+              <a-input v-decorator="['keyword', { rules: [{ required: false,min:1,max:120,message:'输入长度应在1到120之间'}] }]"
+                placeholder="请输入姓名/电话" />
             </a-form-item>
             <a-form-item label="状态">
-              <a-select
-                  style="width: 6rem"
-                  v-decorator="['status',{ rules: [{ required: true, message: '状态' }] }]">
-                <a-select-option
-                    :value="key"
-                    :key="index"
-                    v-for="(value,key,index) in statusMap">
+              <a-select style="width: 6rem" v-decorator="['status',{ rules: [{ required: true, message: '状态' }] }]">
+                <a-select-option :value="key" :key="index" v-for="(value,key,index) in statusMap">
                   {{value}}
                 </a-select-option>
               </a-select>
@@ -28,43 +21,30 @@
           </a-form>
           <a-button type="primary" @click="showModal('新增')">添加</a-button>
         </a-space>
-        <a-table
-            :columns="columns"
-            :data-source="dataSource"
-            :pagination="pagination"
-            :loading="loading"
-            @change="handleTableChange"
-            :scroll="{ x: 1500, y: 300 }"
-        >
-           <span slot="action" slot-scope="text">
-             <a-button type="link" shape="round" icon="" size="small" @click="showItem(text.id,text)" >查看</a-button>
-             <a-button type="link" shape="round" icon="" size="small" @click="updateItem(text.id,text)" >编辑</a-button>
-             <a-button type="link" shape="round" icon="" size="small" @click="showFollowModal(text.id,text)" >跟进</a-button>
-             <a-button type="link" shape="round" icon="" size="small" @click="showHandoverModal(text.id)">移交</a-button>
-             <a-button type="link" shape="round" icon="" size="small" @click="showStatusModal(text.id)" >修改状态</a-button>
-           </span>
+        <a-table :columns="columns" :data-source="dataSource" :pagination="pagination" :loading="loading"
+          @change="handleTableChange" :scroll="{ x: 1500, y: 300 }">
+          <span slot="action" slot-scope="text">
+            <a-button type="link" shape="round" icon="" size="small" @click="showItem(text.id,text)">查看</a-button>
+            <a-button type="link" shape="round" icon="" size="small" @click="updateItem(text.id,text)">编辑</a-button>
+            <a-button type="link" shape="round" icon="" size="small" @click="showFollowModal(text.id,text)">跟进
+            </a-button>
+            <a-button type="link" shape="round" icon="" size="small" @click="showHandoverModal(text.id)">移交</a-button>
+            <a-button type="link" shape="round" icon="" size="small" @click="showStatusModal(text.id)">修改状态</a-button>
+          </span>
         </a-table>
       </div>
     </a-card>
-<!--    新增修改-->
-    <a-modal
-        :title="title"
-        :visible="visible"
-        :confirm-loading="confirmLoading"
-        @ok="handleOk"
-        @cancel="handleCancel"
-        okText="提交"
-    >
+    <!--    新增修改-->
+    <a-modal :title="title" :visible="visible" :confirm-loading="confirmLoading" @ok="handleOk" @cancel="handleCancel"
+      okText="提交">
       <a-form :form="form" :layout="`horizontal`">
-          <a-form-item hidden>
-            <a-input v-decorator="['id',{ rules: [{ required: false}] }]"/>
-          </a-form-item>
+        <a-form-item hidden>
+          <a-input v-decorator="['id',{ rules: [{ required: false}] }]" />
+        </a-form-item>
         <div v-for="(item) in baseColumns" :key="item.dataIndex">
           <a-form-item :label="item.title">
-            <a-select v-if="item.dataIndex==='gender'"
-                style="width: 6rem"
-                v-decorator="[item.dataIndex,{ rules: [{ required: true, message: item.title }] }]"
-                      :disabled="show">
+            <a-select v-if="item.dataIndex==='gender'" style="width: 6rem"
+              v-decorator="[item.dataIndex,{ rules: [{ required: true, message: item.title }] }]" :disabled="show">
               <a-select-option :value="1">
                 男
               </a-select-option>
@@ -72,229 +52,151 @@
                 女
               </a-select-option>
             </a-select>
-            <a-select v-else-if="item.dataIndex==='job'" v-decorator="[item.dataIndex,{ rules: [{ required: true, message: item.title }] }]"
-                      :disabled="show">
+            <a-select v-else-if="item.dataIndex==='job'"
+              v-decorator="[item.dataIndex,{ rules: [{ required: true, message: item.title }] }]" :disabled="show">
               <a-select-option v-for="(list) in dictionaryDetailsJob" :key="list.id">
                 {{list.title}}
               </a-select-option>
             </a-select>
-            <a-select v-else-if="item.dataIndex==='source'" v-decorator="[item.dataIndex,{ rules: [{ required: true, message: item.title }] }]"
-                      :disabled="show">
+            <a-select v-else-if="item.dataIndex==='source'"
+              v-decorator="[item.dataIndex,{ rules: [{ required: true, message: item.title }] }]" :disabled="show">
               <a-select-option v-for="(list) in dictionaryDetailsSource" :key="list.id">
                 {{list.title}}
               </a-select-option>
             </a-select>
-            <a-select v-else-if="item.dataIndex==='clienttype'" v-decorator="[item.dataIndex,{ rules: [{ required: true, message: item.title }] }]"
-                      :disabled="show">
+            <a-select v-else-if="item.dataIndex==='clienttype'"
+              v-decorator="[item.dataIndex,{ rules: [{ required: true, message: item.title }] }]" :disabled="show">
               <a-select-option v-for="(list) in dictionaryDetailsClienttype" :key="list.id">
                 {{list.title}}
               </a-select-option>
             </a-select>
-            <!--<a-upload  v-else-if="item.dataIndex==='attachment'"-->
-                       <!--:action="getUploadAction()"-->
-                       <!--list-type="picture"-->
-                       <!--:default-file-list="fileList"-->
-                       <!--class="upload-list-inline"-->
-                       <!--:disabled="show"-->
-                       <!--@change="handleChange"-->
-            <!--&gt;-->
-            <!--<a-button> <a-icon type="upload" /> upload </a-button>-->
-            <!--</a-upload>-->
-            <a-upload  v-else-if="item.dataIndex==='attachment'"
-                       :fileList="fileList"
-                       :remove="handleRemove"
-                       :beforeUpload="beforeUpload">
-              <a-button> <a-icon type="upload" /> Select File </a-button>
-            </a-upload>
-            <a-input-number v-else-if="item.dataIndex==='age'" :min="0" :max="200" v-decorator="[item.dataIndex, { rules: [{ required: true, message: item.title  }]}]"
-                            :disabled="show" />
+            <!-- 上传组件 -->
+            <UploadComponent v-else-if="item.dataIndex==='attachment'" :fileid2="fileids"
+              @listen2ChildEventAdd="handleUpload" @listen2ChildEventDel="handleRemove" />
+
+            <a-input-number v-else-if="item.dataIndex==='age'" :min="0" :max="200"
+              v-decorator="[item.dataIndex, { rules: [{ required: true, message: item.title  }]}]" :disabled="show" />
             <a-input v-else-if="item.dataIndex==='name'"
-                     v-decorator="[item.dataIndex, { rules: [{ required: true,min:1,max:120,message:'输入长度应在1到120之间' }]}]"
-                     :placeholder="`请输入`+item.title"
-                     :disabled="show"
-            />
+              v-decorator="[item.dataIndex, { rules: [{ required: true,min:1,max:120,message:'输入长度应在1到120之间' }]}]"
+              :placeholder="`请输入`+item.title" :disabled="show" />
             <!--<a-input v-else-if="item.dataIndex==='tel'"-->
-                     <!--v-decorator="[item.dataIndex, { rules: [{ required: false,pattern:validators.phoneReg,message:validators.phoneMsg  }]}]"-->
-                     <!--:placeholder="`请输入`+item.title"-->
+            <!--v-decorator="[item.dataIndex, { rules: [{ required: false,pattern:validators.phoneReg,message:validators.phoneMsg  }]}]"-->
+            <!--:placeholder="`请输入`+item.title"-->
             <!--/>-->
             <!--<a-input v-else-if="item.dataIndex==='qq'"-->
-                     <!--v-decorator="[item.dataIndex, { rules: [{ required: false,pattern:validators.qqReg,message:validators.qqMsg  }]}]"-->
-                     <!--:placeholder="`请输入`+item.title"-->
+            <!--v-decorator="[item.dataIndex, { rules: [{ required: false,pattern:validators.qqReg,message:validators.qqMsg  }]}]"-->
+            <!--:placeholder="`请输入`+item.title"-->
             <!--/>-->
             <a-input v-else-if="item.dataIndex==='tel'"
-                     v-decorator="[item.dataIndex, { rules: [{ required: false,message:validators.phoneMsg  }]}]"
-                     :placeholder="`请输入`+item.title"
-                     :disabled="show"
-            />
+              v-decorator="[item.dataIndex, { rules: [{ required: false,message:validators.phoneMsg  }]}]"
+              :placeholder="`请输入`+item.title" :disabled="show" />
             <a-input v-else-if="item.dataIndex==='qq'"
-                     v-decorator="[item.dataIndex, { rules: [{ required: false,message:validators.qqMsg  }]}]"
-                     :placeholder="`请输入`+item.title"
-                     :disabled="show"
-            />
+              v-decorator="[item.dataIndex, { rules: [{ required: false,message:validators.qqMsg  }]}]"
+              :placeholder="`请输入`+item.title" :disabled="show" />
             <a-input v-else-if="item.dataIndex==='productname'"
-                     v-decorator="[item.dataIndex, { rules: [{ required: false,message:item.title   }]}]"
-                     :placeholder="`请输入`+item.title"
-                     :disabled="show"
-            />
+              v-decorator="[item.dataIndex, { rules: [{ required: false,message:item.title   }]}]"
+              :placeholder="`请输入`+item.title" :disabled="show" />
             <a-input v-else-if="item.dataIndex==='remark'"
-                     v-decorator="[item.dataIndex, { rules: [{ required: false,message:item.title   }]}]"
-                     :placeholder="`请输入`+item.title"
-                     :disabled="show"
-            />
-            <a-input v-else
-                v-decorator="[item.dataIndex, { rules: [{ required: true, message: item.title  }]}]"
-                :placeholder="`请输入`+item.title"
-                :disabled="show"
-            />
+              v-decorator="[item.dataIndex, { rules: [{ required: false,message:item.title   }]}]"
+              :placeholder="`请输入`+item.title" :disabled="show" />
+            <a-input v-else v-decorator="[item.dataIndex, { rules: [{ required: true, message: item.title  }]}]"
+              :placeholder="`请输入`+item.title" :disabled="show" />
           </a-form-item>
         </div>
       </a-form>
     </a-modal>
-<!--    修改客户状态-->
-    <a-modal
-        title="修改客户状态"
-        :visible="statusVisible"
-        :confirm-loading="statusConfirmLoading"
-        @ok="handleStatusOk"
-        @cancel="handleStatusCancel"
-        okText="保存"
-    >
+    <!--    修改客户状态-->
+    <a-modal title="修改客户状态" :visible="statusVisible" :confirm-loading="statusConfirmLoading" @ok="handleStatusOk"
+      @cancel="handleStatusCancel" okText="保存">
       <a-form :form="statusForm" :layout="`horizontal`">
         <a-form-item hidden>
-          <a-input v-decorator="['id',{ rules: [{ required: false}] }]"/>
+          <a-input v-decorator="['id',{ rules: [{ required: false}] }]" />
         </a-form-item>
         <a-form-item lable="姓名">
-          <a-input
-              disabled
-               v-decorator="['name', { rules: [{ required: true, message: '名字长度在1到15之间',min:1,max:15  }]}]"
-               :placeholder="`请输入姓名`"
-          />
+          <a-input disabled v-decorator="['name', { rules: [{ required: true, message: '名字长度在1到15之间',min:1,max:15  }]}]"
+            :placeholder="`请输入姓名`" />
         </a-form-item>
         <a-form-item label="状态">
-          <a-select
-              v-decorator="['status',{ rules: [{ required: true, message: '状态' }] }]">
-            <a-select-option
-                :value="key"
-                :key="index"
-                v-for="(value,key,index) in statusMap">
+          <a-select v-decorator="['status',{ rules: [{ required: true, message: '状态' }] }]">
+            <a-select-option :value="key" :key="index" v-for="(value,key,index) in statusMap">
               {{value}}
             </a-select-option>
           </a-select>
         </a-form-item>
       </a-form>
     </a-modal>
-<!--    移交-->
-    <a-modal
-        title="移交"
-        :visible="handoverVisible"
-        :confirm-loading="handoverConfirmLoading"
-        @ok="handleHandoverOk"
-        @cancel="handleHandoverCancel"
-        okText="保存">
+    <!--    移交-->
+    <a-modal title="移交" :visible="handoverVisible" :confirm-loading="handoverConfirmLoading" @ok="handleHandoverOk"
+      @cancel="handleHandoverCancel" okText="保存">
       <a-form :form="handoverForm" :layout="`horizontal`">
         <a-form-item hidden>
-          <a-input v-decorator="['oldseller',{ rules: [{ required: false}] }]"/>
+          <a-input v-decorator="['oldseller',{ rules: [{ required: false}] }]" />
         </a-form-item>
         <a-form-item hidden>
-          <a-input v-decorator="['customerid',{ rules: [{ required: false}] }]"/>
+          <a-input v-decorator="['customerid',{ rules: [{ required: false}] }]" />
         </a-form-item>
         <a-form-item hidden>
-          <a-input v-decorator="['transuser',{ rules: [{ required: false}] }]"/>
+          <a-input v-decorator="['transuser',{ rules: [{ required: false}] }]" />
         </a-form-item>
         <a-form-item lable="客户姓名">
-          <a-input
-              disabled
-              v-decorator="['name', { rules: [{ required: true, message: '姓名' }]}]"
-          />
+          <a-input disabled v-decorator="['name', { rules: [{ required: true, message: '姓名' }]}]" />
         </a-form-item>
         <a-form-item label="旧营销人员">
-          <a-input
-              disabled
-              v-decorator="['oldsellerName',{ rules: [{ required: true, message: '旧营销人员' }] }]"
-          />
+          <a-input disabled v-decorator="['oldsellerName',{ rules: [{ required: true, message: '旧营销人员' }] }]" />
         </a-form-item>
         <a-form-item label="新营销人员">
-          <a-select
-              v-decorator="['newseller',{ rules: [{ required: true, message: '状态' }] }]">
-            <a-select-option
-                :value="key"
-                :key="index"
-                v-for="(value,key,index) in employeeList">
+          <a-select v-decorator="['newseller',{ rules: [{ required: true, message: '状态' }] }]">
+            <a-select-option :value="key" :key="index" v-for="(value,key,index) in employeeList">
               {{value.name}}
             </a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item label="移交原因">
           <a-textarea
-              v-decorator="['transreason',{ rules: [{ required: true, message: '移交原因的内容长度在10和120之间' ,min:10,max:120 }] }]"
-              :auto-size="{ minRows: 3, maxRows: 5 }"
-          />
+            v-decorator="['transreason',{ rules: [{ required: true, message: '移交原因的内容长度在10和120之间' ,min:10,max:120 }] }]"
+            :auto-size="{ minRows: 3, maxRows: 5 }" />
         </a-form-item>
       </a-form>
     </a-modal>
-<!--    跟进-->
-    <a-modal
-        title="跟进记录"
-        :visible="followVisible"
-        :confirm-loading="followConfirmLoading"
-        @ok="handleFollowOk"
-        @cancel="handleFollowCancel"
-        okText="保存">
+    <!--    跟进-->
+    <a-modal title="跟进记录" :visible="followVisible" :confirm-loading="followConfirmLoading" @ok="handleFollowOk"
+      @cancel="handleFollowCancel" okText="保存">
       <a-form :form="followForm" :layout="`horizontal`">
         <a-form-item hidden>
-          <a-input v-decorator="['customerid',{ rules: [{ required: false}] }]"/>
+          <a-input v-decorator="['customerid',{ rules: [{ required: false}] }]" />
         </a-form-item>
         <a-form-item disabled label="客户姓名">
-          <a-input
-              v-decorator="['name', { rules: [{ required: true, message: '姓名'  }]}]"
-              disabled />
+          <a-input v-decorator="['name', { rules: [{ required: true, message: '姓名'  }]}]" disabled />
         </a-form-item>
         <a-form-item disabled label="跟进时间">
-          <a-date-picker
-              show-time
-              v-decorator="['tracetime', { rules: [{ required: true, message: '跟进时间'  }]}]"
-              />
-        </a-form-item><a-form-item disabled label="跟进内容">
+          <a-date-picker show-time v-decorator="['tracetime', { rules: [{ required: true, message: '跟进时间'  }]}]" />
+        </a-form-item>
+        <a-form-item disabled label="跟进内容">
           <a-input
-              v-decorator="['tracedetails', { rules: [{ required: true, message: '跟进内容',min:1,max:120,message:'跟进内容长度在1到120之间'  }]}]"
-              />
+            v-decorator="['tracedetails', { rules: [{ required: true, message: '跟进内容',min:1,max:120,message:'跟进内容长度在1到120之间'  }]}]" />
         </a-form-item>
         <a-form-item disabled label="跟进方式">
-          <a-select
-              v-decorator="['tracetype', { rules: [{ required: true, message: '跟进方式'  }]}]">
-            <a-select-option
-                :value="value.id"
-                :key="index"
-                v-for="(value,key,index) in dictionaryDetailsFollow">
+          <a-select v-decorator="['tracetype', { rules: [{ required: true, message: '跟进方式'  }]}]">
+            <a-select-option :value="value.id" :key="index" v-for="(value,key,index) in dictionaryDetailsFollow">
               {{value.title}}
             </a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item disabled label="跟进结果">
-          <a-select
-              v-decorator="['traceresult', { rules: [{ required: true, message: '跟进结果'  }]}]">
-            <a-select-option
-                :value="key"
-                :key="index"
-                v-for="(value,key,index) in followTraceResult">
+          <a-select v-decorator="['traceresult', { rules: [{ required: true, message: '跟进结果'  }]}]">
+            <a-select-option :value="key" :key="index" v-for="(value,key,index) in followTraceResult">
               {{value}}
             </a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item disabled label="备注">
           <a-textarea
-              v-decorator="['comment', { rules: [{ required: true, message: '备注' ,min:1,max:120,message:'备注内容在1到120之间'}]}]"
-              :auto-size="{ minRows: 3, maxRows: 5 }"
-              />
+            v-decorator="['comment', { rules: [{ required: true, message: '备注' ,min:1,max:120,message:'备注内容在1到120之间'}]}]"
+            :auto-size="{ minRows: 3, maxRows: 5 }" />
         </a-form-item>
         <a-form-item disabled label="跟进类型">
-          <a-select
-              v-decorator="['type', { rules: [{ required: true, message: '跟进类型'  }]}]"
-              >
-            <a-select-option
-                :value="key"
-                :key="index"
-                v-for="(value,key,index) in followType">
+          <a-select v-decorator="['type', { rules: [{ required: true, message: '跟进类型'  }]}]">
+            <a-select-option :value="key" :key="index" v-for="(value,key,index) in followType">
               {{value}}
             </a-select-option>
           </a-select>
@@ -305,36 +207,37 @@
 </template>
 
 <script>
+import UploadComponent from "@/components/upload/uploadComponent.vue"
 import * as customerManager from "@/services/customerManager"
 import * as dictionaryDetails from "@/services/dictionaryDetails"
 import * as employee from "@/services/employee"
 import * as customerHandover from "@/services/customerHandover"
 import * as customerFollowUpHistory from "@/services/customerFollowUpHistory"
-import request from 'request';
+// import request from 'request';
 // import * as uploadFile from "@/services/customerUploadFile"
 import moment from "moment";
 import validators from "@/utils/validators";
 
-const baseColumns =[
+const baseColumns = [
   {
-    width:120,
+    width: 120,
     title: '客户名称',
     dataIndex: 'name',
     ellipsis: true,
     fixed: 'left'
   },
   {
-      width:120,
-      title: '客户类型',
-      dataIndex: 'clienttype',
-      ellipsis: true,
+    width: 120,
+    title: '客户类型',
+    dataIndex: 'clienttype',
+    ellipsis: true,
 
   },
   {
-      width:120,
-      title: '商品名称',
-      dataIndex: 'productname',
-      ellipsis: true,
+    width: 120,
+    title: '商品名称',
+    dataIndex: 'productname',
+    ellipsis: true,
 
   },
   // {
@@ -360,32 +263,32 @@ const baseColumns =[
   //   ellipsis: true,
   // },
   {
-    width:80,
+    width: 80,
     title: '来源',
     dataIndex: 'source',
     ellipsis: true,
   },
   {
-      width:120,
-      title: '备注',
-      dataIndex: 'remark',
-      ellipsis: true,
+    width: 120,
+    title: '备注',
+    dataIndex: 'remark',
+    ellipsis: true,
   },
   {
-      width:120,
-      title: '附件',
-      dataIndex: 'attachment',
-      ellipsis: true,
+    width: 120,
+    title: '附件',
+    dataIndex: 'attachment',
+    ellipsis: true,
   }
 ]
 const columns = [
   {
-    width:60,
+    width: 60,
     title: '编号',
     dataIndex: 'id',
     fixed: 'left'
   },
-    ...baseColumns,
+  ...baseColumns,
   {
     title: '营销人员',
     dataIndex: 'inputuser'
@@ -393,123 +296,113 @@ const columns = [
   {
     title: '状态',
     dataIndex: 'status',
-    customRender:(text)=>customerManager.statusMap[parseInt(text)]
+    customRender: (text) => customerManager.statusMap[parseInt(text)]
   },
   {
-    width:380,
+    width: 380,
     title: '操作',
-    scopedSlots: {customRender: 'action'},
+    scopedSlots: { customRender: 'action' },
     fixed: 'right'
   }
 ]
 export default {
   name: 'Department',
-  data() {
+  components: {
+    UploadComponent
+  },
+  data () {
     return {
-        fileList: [],
-        uploading: false,
+      fileids: '',
+      uploading: false,
       validators,
-      queryForm:this.$form.createForm(this, {name: 'coordinated'}),
-      queryLoading:false,
-      statusMap:customerManager.statusMap,
+      queryForm: this.$form.createForm(this, { name: 'coordinated' }),
+      queryLoading: false,
+      statusMap: customerManager.statusMap,
       // table
       columns: columns,
       dataSource: [],
       selectedRows: [],
-      pagination: {current:1},
+      pagination: { current: 1 },
       loading: false,
       // 新增修改
       baseColumns,
-      form:this.$form.createForm(this, {name: 'coordinated'}),
-      show:false,
-      confirmLoading:false,
-      title:'新增',
+      form: this.$form.createForm(this, { name: 'coordinated' }),
+      show: false,
+      confirmLoading: false,
+      title: '新增',
       visible: false,
       // 修改客户状态
-      statusForm:this.$form.createForm(this, {name: 'coordinated'}),
-      statusConfirmLoading:false,
-      statusVisible:false,
+      statusForm: this.$form.createForm(this, { name: 'coordinated' }),
+      statusConfirmLoading: false,
+      statusVisible: false,
       // 移交
-      handoverForm:this.$form.createForm(this, {name: 'coordinated'}),
-      handoverVisible :false,
-      handoverConfirmLoading :false,
+      handoverForm: this.$form.createForm(this, { name: 'coordinated' }),
+      handoverVisible: false,
+      handoverConfirmLoading: false,
       // 跟进
-      followForm:this.$form.createForm(this, {name: 'coordinated'}),
-      followVisible :false,
-      followConfirmLoading :false,
-      followType:customerFollowUpHistory.type,
-      followTraceResult:customerFollowUpHistory.traceresult,
+      followForm: this.$form.createForm(this, { name: 'coordinated' }),
+      followVisible: false,
+      followConfirmLoading: false,
+      followType: customerFollowUpHistory.type,
+      followTraceResult: customerFollowUpHistory.traceresult,
       // 字典细节
-      dictionaryDetailsJob:[],
-      dictionaryDetailsSource:[],
-      dictionaryDetailsClienttype:[],
-      dictionaryDetailsFollow:[],
+      dictionaryDetailsJob: [],
+      dictionaryDetailsSource: [],
+      dictionaryDetailsClienttype: [],
+      dictionaryDetailsFollow: [],
       // 员工表
-      employeeList:[]
+      employeeList: []
     }
   },
-  mounted() {
-    this.queryForm.setFieldsValue({"status":"0"})
+  mounted () {
+    this.queryForm.setFieldsValue({ "status": "0" })
     this.query()
     // id 1 职业
-    dictionaryDetails.list({page:1,size:999999,id:1}).then(({data})=>{
+    dictionaryDetails.list({ page: 1, size: 999999, id: 1 }).then(({ data }) => {
       this.dictionaryDetailsJob = data.data.list
     });
     // id 2 来源
-    dictionaryDetails.list({page:1,size:999999,id:2}).then(({data})=>{
+    dictionaryDetails.list({ page: 1, size: 999999, id: 2 }).then(({ data }) => {
       this.dictionaryDetailsSource = data.data.list
     })
     // id 15 客户类型
-    dictionaryDetails.list({page:1,size:999999,id:15}).then(({data})=>{
+    dictionaryDetails.list({ page: 1, size: 999999, id: 15 }).then(({ data }) => {
       this.dictionaryDetailsClienttype = data.data.list
     })
     // id 10 跟进方式
-    dictionaryDetails.list({page:1,size:999999,id:10}).then(({data})=>{
+    dictionaryDetails.list({ page: 1, size: 999999, id: 10 }).then(({ data }) => {
       this.dictionaryDetailsFollow = data.data.list
     })
 
-    employee.list({page:1,size:99999}).then(({data})=>{
+    employee.list({ page: 1, size: 99999 }).then(({ data }) => {
       this.employeeList = data.data.list
     })
   },
   methods: {
-      handleRemove(file) {
-          const index = this.fileList.indexOf(file);
-          const newFileList = this.fileList.slice();
-          newFileList.splice(index, 1);
-          this.fileList = newFileList;
-      },
-      beforeUpload(file) {
-          this.fileList = [...this.fileList, file];
-          return false;
-      },
-      handleUpload() {
-          console.log("调用上传附件接口")
-          const { fileList } = this;
-          const formData = new FormData();
-          fileList.forEach(file => {
-              formData.append('multipartFileList', file);//后面再加上token
-          });
-          this.uploading = true;
-
-          // You can use any AJAX library you like
-          request({
-              url: 'http://192.168.0.29/attachment/uploads/file',
-              method: 'post',
-              processData: false,
-              data: formData,
-              success: () => {
-                  this.fileList = [];
-                  this.uploading = false;
-                  this.$message.success('upload successfully.');
-              },
-              error: () => {
-                  this.uploading = false;
-                  this.$message.error('upload failed.');
-              },
-          });
-      },
-    query(){
+    handleRemove (file) {
+      const index = this.fileList.indexOf(file);
+      const newFileList = this.fileList.slice();
+      newFileList.splice(index, 1);
+      this.fileList = newFileList;
+    },
+    beforeUpload (file) {
+      this.fileList = [...this.fileList, file];
+      return false;
+    },
+    handleUpload (res) {
+      console.log(res)
+      let fileid_ = res.data.id
+      console.log('fileid_', fileid_)
+      let fileidStr = this.fileids
+      if (fileidStr.length == 0) {
+        this.fileids = fileid_
+      } else {
+        this.fileids = fileidStr + ',' + fileid_
+      }
+      console.log('fileidStr', fileidStr)
+      console.log(this.fileids)
+    },
+    query () {
       this.queryLoading = true
       this.queryForm.validateFields((err, values) => {
         if (err) {
@@ -517,12 +410,12 @@ export default {
           this.queryLoading = false
           return;
         }
-        this.fetch({"page": this.pagination.current, "size": 10,...values})
+        this.fetch({ "page": this.pagination.current, "size": 10, ...values })
       })
     },
     // table
-    handleTableChange(pagination) {
-      const pager = {...this.pagination};
+    handleTableChange (pagination) {
+      const pager = { ...this.pagination };
       pager.current = pagination.current;
       this.pagination = pager;
       this.fetch({
@@ -530,22 +423,22 @@ export default {
         page: pagination.current,
       });
     },
-    async fetch(params = {"page": 1, "size": 10}) {
+    async fetch (params = { "page": 1, "size": 10 }) {
       this.loading = true
-      let {data} = await customerManager.list(params || {"page": 1, "size": 10})
+      let { data } = await customerManager.list(params || { "page": 1, "size": 10 })
       const res = data.data
-      const pagination = {...this.pagination};
+      const pagination = { ...this.pagination };
       pagination.total = res.total
       pagination.current = params.page
-      this.dataSource = res.list.map((e, i) => ({key: i + "", ...e}))
+      this.dataSource = res.list.map((e, i) => ({ key: i + "", ...e }))
       this.pagination = pagination
       this.loading = false
-      this.queryLoading=false
+      this.queryLoading = false
       return data
     },
-    deleteItem(text) {
+    deleteItem (text) {
       const title = '删除'
-      customerManager.deleteItem(text.id).then(({data}) => {
+      customerManager.deleteItem(text.id).then(({ data }) => {
         if (data.code !== 200) {
           this.$notification['error']({
             message: title + '客户信息出现错误',
@@ -556,27 +449,28 @@ export default {
           message: title + '成功',
           description: title + '客户信息成功',
         });
-        this.fetch({"page": this.pagination.current, "size": 10})
+        this.fetch({ "page": this.pagination.current, "size": 10 })
       })
     },
     // 客户状态
-    handleStatusOk(){
+    handleStatusOk () {
       this.statusConfirmLoading = true;
       this.statusForm.validateFields((err, values) => {
+        console.log('values', values)
         if (err) {
           console.log("form error");
           this.statusConfirmLoading = false
           return;
         }
         values.status = parseInt(values.status)
-        customerManager['update'](values).then(({data}) => {
+        customerManager['update'](values).then(({ data }) => {
           this.statusConfirmLoading = false;
           if (data.code !== 200) {
             this.$notification['error']({
               message: this.title + '角色信息出现错误',
               description: '建议检查网络连接或重新登陆',
             });
-          }else {
+          } else {
             this.$notification.success({
               message: this.title + '成功',
               description: this.title + '角色信息成功',
@@ -587,45 +481,45 @@ export default {
         })
       });
     },
-    handleStatusCancel(){
+    handleStatusCancel () {
       this.statusVisible = false;
       this.statusConfirmLoading = false
       this.statusForm.resetFields()
     },
-    async showStatusModal(id){
+    async showStatusModal (id) {
       this.statusVisible = true;
       this.statusConfirmLoading = false
       await this.statusForm.resetFields()
-      const {data} = await customerManager.getDetail(id)
-      if(!data.data) return;
+      const { data } = await customerManager.getDetail(id)
+      if (!data.data) return;
       // 这里不能循环
-      this.statusForm.setFieldsValue({id:data.data["id"]})
-      this.statusForm.setFieldsValue({name:data.data["name"]})
-      this.statusForm.setFieldsValue({status:data.data["status"]+""})
+      this.statusForm.setFieldsValue({ id: data.data["id"] })
+      this.statusForm.setFieldsValue({ name: data.data["name"] })
+      this.statusForm.setFieldsValue({ status: data.data["status"] + "" })
     },
     // 移交
-    handleHandoverCancel(){
+    handleHandoverCancel () {
       this.handoverVisible = false;
       this.handoverConfirmLoading = false
       this.handoverForm.resetFields()
     },
-    handleHandoverOk(){
+    handleHandoverOk () {
       this.handoverConfirmLoading = true;
       this.handoverForm.validateFields((err, values) => {
-        console.log("values",values)
+        console.log("values", values)
         if (err) {
           console.log("form error");
           this.handoverConfirmLoading = false
           return;
         }
-        customerHandover['add'](values).then(({data}) => {
+        customerHandover['add'](values).then(({ data }) => {
           this.handoverConfirmLoading = false;
           if (data.code !== 200) {
             this.$notification['error']({
               message: this.title + '角色信息出现错误',
               description: '建议检查网络连接或重新登陆',
             });
-          }else{
+          } else {
             this.$notification.success({
               message: this.title + '成功',
               description: this.title + '角色信息成功',
@@ -636,25 +530,25 @@ export default {
         })
       });
     },
-    async showHandoverModal(id){
+    async showHandoverModal (id) {
       this.handoverVisible = true;
       this.handoverConfirmLoading = false
       await this.handoverForm.resetFields()
-      const {data} = await customerManager.getDetail(id)
-      if(!data.data) return;
+      const { data } = await customerManager.getDetail(id)
+      if (!data.data) return;
       // 这里不能循环
-      this.handoverForm.setFieldsValue({oldsellerName:this.employeeList.find(e=>e.id===data.data["inputuser"]).name})
-      this.handoverForm.setFieldsValue({oldseller:data.data["inputuser"]})
-      this.handoverForm.setFieldsValue({customerid:data.data["id"]})
-      this.handoverForm.setFieldsValue({name:data.data["name"]})
+      this.handoverForm.setFieldsValue({ oldsellerName: this.employeeList.find(e => e.id === data.data["inputuser"]).name })
+      this.handoverForm.setFieldsValue({ oldseller: data.data["inputuser"] })
+      this.handoverForm.setFieldsValue({ customerid: data.data["id"] })
+      this.handoverForm.setFieldsValue({ name: data.data["name"] })
     },
     // 跟进
-    handleFollowCancel(){
+    handleFollowCancel () {
       this.followVisible = false;
       this.followConfirmLoading = false
       this.followForm.resetFields()
     },
-    handleFollowOk(){
+    handleFollowOk () {
       this.followConfirmLoading = true;
       this.followForm.validateFields((err, values) => {
         if (err) {
@@ -664,14 +558,14 @@ export default {
         }
         values.tracetime = values.tracetime.toDate()
 
-        customerFollowUpHistory['add'](values).then(({data}) => {
+        customerFollowUpHistory['add'](values).then(({ data }) => {
           this.followConfirmLoading = false;
           if (data.code !== 200) {
             this.$notification['error']({
               message: '跟进记录出现错误',
               description: '建议检查网络连接或重新登陆',
             });
-          }else{
+          } else {
             this.$notification.success({
               message: '成功',
               description: '跟进记录成功',
@@ -682,88 +576,91 @@ export default {
         })
       });
     },
-    async showFollowModal(id,line){
+    async showFollowModal (id, line) {
       this.followVisible = true;
       this.followConfirmLoading = false
       await this.followForm.resetFields()
       // 这里不能循环
-      this.$nextTick(()=>{
-        this.followForm.setFieldsValue({customerid:line.id})
-        this.followForm.setFieldsValue({name:line.name})
-        this.followForm.setFieldsValue({tracetime:new moment(new Date())})
-        this.followForm.setFieldsValue({tracetype:this.dictionaryDetailsFollow[0].id})
-        this.followForm.setFieldsValue({type:Object.keys(this.followType)[0]})
-        this.followForm.setFieldsValue({traceresult:Object.keys(this.followTraceResult)[0]})
+      this.$nextTick(() => {
+        this.followForm.setFieldsValue({ customerid: line.id })
+        this.followForm.setFieldsValue({ name: line.name })
+        this.followForm.setFieldsValue({ tracetime: new moment(new Date()) })
+        this.followForm.setFieldsValue({ tracetype: this.dictionaryDetailsFollow[0].id })
+        this.followForm.setFieldsValue({ type: Object.keys(this.followType)[0] })
+        this.followForm.setFieldsValue({ traceresult: Object.keys(this.followTraceResult)[0] })
       })
     },
     // modal
-    async showModal(title) {
+    async showModal (title) {
       this.visible = true;
       this.title = title || '新增'
       await this.form.resetFields()
     },
-    async showItem(id,line) {
-      this.show=true
-      this.confirmLoading=false
+    async showItem (id, line) {
+      this.show = true
+      this.confirmLoading = false
       await this.showModal('查看')
-      customerManager.getDetail(id).then(({data}) => {
-        if(!data.data) return;
+      customerManager.getDetail(id).then(({ data }) => {
+        if (!data.data) return;
         // 这里不能循环
-        this.form.setFieldsValue({id:data.data["id"]})
-        this.form.setFieldsValue({name:data.data["name"]})
-        this.form.setFieldsValue({age:line["age"]})
-        this.form.setFieldsValue({gender:data.data["gender"]})
-        this.form.setFieldsValue({tel:data.data["tel"]})
-        this.form.setFieldsValue({qq:data.data["qq"]})
-        this.form.setFieldsValue({job:data.data["job"]})
-        this.form.setFieldsValue({source:data.data["source"]})
-        this.form.setFieldsValue({clienttype:data.data["clienttype"]})
-        this.form.setFieldsValue({productname:data.data["productname"]})
-        this.form.setFieldsValue({remark:data.data["remark"]})
-        this.form.setFieldsValue({attachment:data.data["attachment"]})
+        this.form.setFieldsValue({ id: data.data["id"] })
+        this.form.setFieldsValue({ name: data.data["name"] })
+        this.form.setFieldsValue({ age: line["age"] })
+        this.form.setFieldsValue({ gender: data.data["gender"] })
+        this.form.setFieldsValue({ tel: data.data["tel"] })
+        this.form.setFieldsValue({ qq: data.data["qq"] })
+        this.form.setFieldsValue({ job: data.data["job"] })
+        this.form.setFieldsValue({ source: data.data["source"] })
+        this.form.setFieldsValue({ clienttype: data.data["clienttype"] })
+        this.form.setFieldsValue({ productname: data.data["productname"] })
+        this.form.setFieldsValue({ remark: data.data["remark"] })
+        this.form.setFieldsValue({ attachment: data.data["attachment"] })
       })
     },
-    async updateItem(id,line) {
-      this.show=false
-      this.confirmLoading=false
+    async updateItem (id, line) {
+      this.show = false
+      this.confirmLoading = false
       await this.showModal('更改')
-      customerManager.getDetail(id).then(({data}) => {
-        if(!data.data) return;
+      customerManager.getDetail(id).then(({ data }) => {
+        if (!data.data) return;
         // 这里不能循环
-        this.form.setFieldsValue({id:data.data["id"]})
-        this.form.setFieldsValue({name:data.data["name"]})
-        this.form.setFieldsValue({age:line["age"]})
-        this.form.setFieldsValue({gender:data.data["gender"]})
-        this.form.setFieldsValue({tel:data.data["tel"]})
-        this.form.setFieldsValue({qq:data.data["qq"]})
-        this.form.setFieldsValue({job:data.data["job"]})
-        this.form.setFieldsValue({source:data.data["source"]})
-        this.form.setFieldsValue({clienttype:data.data["clienttype"]})
-        this.form.setFieldsValue({productname:data.data["productname"]})
-        this.form.setFieldsValue({remark:data.data["remark"]})
-        this.form.setFieldsValue({attachment:data.data["attachment"]})
+        this.form.setFieldsValue({ id: data.data["id"] })
+        this.form.setFieldsValue({ name: data.data["name"] })
+        this.form.setFieldsValue({ age: line["age"] })
+        this.form.setFieldsValue({ gender: data.data["gender"] })
+        this.form.setFieldsValue({ tel: data.data["tel"] })
+        this.form.setFieldsValue({ qq: data.data["qq"] })
+        this.form.setFieldsValue({ job: data.data["job"] })
+        this.form.setFieldsValue({ source: data.data["source"] })
+        this.form.setFieldsValue({ clienttype: data.data["clienttype"] })
+        this.form.setFieldsValue({ productname: data.data["productname"] })
+        this.form.setFieldsValue({ remark: data.data["remark"] })
+        this.form.setFieldsValue({ attachment: data.data["attachment"] })
+        this.fileids = data.data["attachment"] || '' //附件id
       })
     },
-    handleOk() {
+    handleOk () {
       this.confirmLoading = true;
       this.form.validateFields((err, values) => {
-          console.log("values",values);
+        console.log("values", values);
+        // values包含已有附件id，新上传更新id
+        values.attachment = this.fileids
         if (err) {
           console.log("form error");
-          this.confirmLoading=false
+          this.confirmLoading = false
           return;
         }
         let method = 'add';
         if (values.id) method = 'update';
 
-        customerManager[method](values).then(({data}) => {
+        customerManager[method](values).then(({ data }) => {
           this.confirmLoading = false;
           if (data.code !== 200) {
             this.$notification['error']({
               message: this.title + '角色信息出现错误',
               description: '建议检查网络连接或重新登陆',
             });
-          }else{
+          } else {
             this.$notification.success({
               message: this.title + '成功',
               description: this.title + '角色信息成功',
@@ -771,16 +668,16 @@ export default {
           }
           this.visible = false
           this.query()
-            this.handleUpload();
+          // this.handleUpload();
         })
       });
     },
-    handleCancel() {
+    handleCancel () {
       this.visible = false;
       this.title = ''
       this.confirmLoading = false
       this.form.resetFields()
-    },
+    }
   }
 }
 </script>
@@ -792,7 +689,7 @@ export default {
 
 .fold {
   width: calc(100% - 216px);
-  display: inline-block
+  display: inline-block;
 }
 
 .operator {
@@ -806,16 +703,16 @@ export default {
 }
 </style>
 <style scoped>
-  /* tile uploaded pictures */
-  .upload-list-inline >>> .ant-upload-list-item {
-    float: left;
-    width: 200px;
-    margin-right: 8px;
-  }
-  .upload-list-inline >>> .ant-upload-animate-enter {
-    animation-name: uploadAnimateInlineIn;
-  }
-  .upload-list-inline >>> .ant-upload-animate-leave {
-    animation-name: uploadAnimateInlineOut;
-  }
+/* tile uploaded pictures */
+.upload-list-inline >>> .ant-upload-list-item {
+  float: left;
+  width: 200px;
+  margin-right: 8px;
+}
+.upload-list-inline >>> .ant-upload-animate-enter {
+  animation-name: uploadAnimateInlineIn;
+}
+.upload-list-inline >>> .ant-upload-animate-leave {
+  animation-name: uploadAnimateInlineOut;
+}
 </style>
