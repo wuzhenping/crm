@@ -28,6 +28,7 @@ import javax.annotation.Resource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
   private static final String[] ANONYMOUS_LIST = {
     "/druid/**",
     "/swagger-ui/",
@@ -41,7 +42,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     "/webjars/**",
 
           // TODO: 2021/6/7 0007 测试时可留着，上线要屏蔽
-    "/attachment/**"
+    "/attachment/**",
+    "**/crm/attach/**",
   };
 
   @Resource private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
